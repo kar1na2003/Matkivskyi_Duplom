@@ -43,7 +43,7 @@ Two AI-agent surfaces live in this repo on top of that demo:
 
 ```
 modusmate-bundle/
-├── README.txt                       # Top-level quick start
+├── README.md                        # Top-level quick start
 ├── AGENTS.md                        # ← you are here (global)
 │
 ├── board-side/
@@ -327,7 +327,7 @@ Plus the debug helpers: `debug`, `capture-uart`.
 
 ## 7. Quick links
 
-- Top-level quick start: [README.txt](README.txt)
+- Top-level quick start: [README.md](README.md)
 - Host README (install, GUI, benchmark, models, protocol):
   [host-side/host/README.md](host-side/host/README.md)
 - Detailed agent playbooks (Project Creator + Debug + NN registry +
