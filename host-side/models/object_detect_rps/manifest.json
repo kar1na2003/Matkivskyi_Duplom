@@ -1,0 +1,13 @@
+{
+  "name": "object_detect_rps",
+  "description": "Reference PSE84 RPS object-detection model. Placeholder manifest re-created so test fixtures resolve; real weights live in firmware-side build artefacts.",
+  "framework": "imai_object_detect_v1",
+  "imai_api": true,
+  "input_shape": [320, 320, 3],
+  "input_dtype": "uint8",
+  "output_shape": [8, 5],
+  "output_dtype": "float32",
+  "output_layout": "column_major",
+  "classes": ["Rock", "Paper", "Scissors"],
+  "files": ["model.h", "model.c"]
+}

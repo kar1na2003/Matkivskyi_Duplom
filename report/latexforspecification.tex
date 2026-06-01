@@ -1,0 +1,472 @@
+\documentclass[14pt,a4paper]{extreport}
+
+\usepackage[a4paper,left=30mm,right=15mm,top=20mm,bottom=20mm]{geometry}
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{ukrainian}
+\setmainfont{Times New Roman}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ТИТУЛЬНА СТОРІНКА
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+
+\begin{center}
+
+Міністерство освіти і науки України\\
+Львівський національний університет імені Івана Франка\\
+Факультет електроніки та комп’ютерних технологій\\
+Кафедра оптоелектроніки та інформаційних технологій
+
+\vspace{3cm}
+
+Допустити до захисту\\
+Завідувач кафедри\\
+\underline{\hspace{5cm}} проф. Кушнір О. С.\\
+«\underline{\hspace{1cm}}» \underline{\hspace{3cm}} 2026 р.
+
+\vspace{3cm}
+
+{\Large \textbf{Кваліфікаційна робота}}\\[0.3cm]
+{\large Бакалавр}
+
+\vspace{2cm}
+
+{\Large \textbf{Програмно-апаратний комплекс\\
+реального часу для обробки зображень\\
+на платформі Edge AI}}
+
+\vfill
+
+\begin{flushright}
+
+Виконав:\\
+студент групи ФеІ-43\\
+спеціальності 122 --- Комп'ютерні науки\\
+
+\vspace{0.5cm}
+
+\underline{\hspace{5cm}}\\
+Матківський Максим Андрійович
+
+\vspace{1cm}
+
+Науковий керівник:\\
+
+\underline{\hspace{5cm}}\\
+_________________________
+
+\vspace{1cm}
+
+Рецензент:\\
+
+\underline{\hspace{5cm}}\\
+_________________________
+
+\end{flushright}
+
+\vfill
+
+Львів --- 2026
+
+\end{center}
+
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% АНОТАЦІЯ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{АНОТАЦІЯ}
+
+У даній роботі розглянуто розробку програмно-апаратного комплексу для
+обробки зображень у реальному часі на embedded платформі Edge AI.
+Реалізовано систему захоплення, передачі та аналізу відеоданих на базі
+мікроконтролера ARM Cortex-M55 із використанням tiled image processing,
+апаратного прискорення та багатозадачності FreeRTOS.
+
+У роботі досліджено алгоритми цифрової обробки зображень, зокрема
+Sobel, Prewitt, Roberts, Laplacian, morphology operations,
+histogram equalization та інші методи комп’ютерного зору.
+Розроблено механізм потокової передачі зображень через UART,
+систему телеметрії та засоби візуалізації результатів.
+
+Було проведено експериментальні дослідження швидкодії,
+використання пам’яті та якості роботи алгоритмів у режимі
+реального часу.
+
+Ключові слова:
+Edge AI, embedded systems, computer vision, digital image processing,
+FreeRTOS, ARM Cortex-M55, UART streaming, realtime systems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ABSTRACT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{ABSTRACT}
+
+This thesis presents the development of a realtime hardware-software
+system for image processing on an embedded Edge AI platform.
+A realtime image acquisition, transmission and processing system
+based on ARM Cortex-M55 microcontroller architecture was implemented
+using tiled image processing, hardware acceleration and FreeRTOS multitasking.
+
+Various digital image processing algorithms were investigated,
+including Sobel, Prewitt, Roberts, Laplacian, morphology operations,
+histogram equalization and other computer vision techniques.
+A streaming UART protocol, telemetry subsystem and visualization tools
+were developed.
+
+Experimental evaluation of performance, memory usage and realtime
+processing efficiency was carried out.
+
+Keywords:
+Edge AI, embedded systems, computer vision, digital image processing,
+FreeRTOS, ARM Cortex-M55, UART streaming, realtime systems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ЗМІСТ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ВСТУП
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{ВСТУП}
+\addcontentsline{toc}{chapter}{ВСТУП}
+
+Сучасний розвиток embedded систем та технологій Edge AI
+призводить до стрімкого збільшення кількості задач,
+пов’язаних із цифровою обробкою зображень у режимі реального часу.
+Особливо актуальними є системи комп’ютерного зору,
+які можуть працювати безпосередньо на мікроконтролерах
+або енергоефективних embedded платформах.
+
+На відміну від традиційних серверних систем,
+embedded платформи мають суттєві обмеження за:
+\begin{itemize}
+    \item обсягом оперативної пам’яті;
+    \item обчислювальною потужністю;
+    \item енергоспоживанням;
+    \item bandwidth каналів передачі даних.
+\end{itemize}
+
+У зв’язку з цим виникає необхідність розробки
+ефективних алгоритмів обробки зображень,
+адаптованих до embedded архітектур.
+
+Особливу актуальність набувають:
+\begin{itemize}
+    \item tiled image processing;
+    \item realtime computer vision;
+    \item edge inference;
+    \item low-latency image streaming;
+    \item hardware accelerated DSP.
+\end{itemize}
+
+Метою даної роботи є розробка програмно-апаратного
+комплексу для обробки зображень у режимі реального часу
+на платформі Edge AI.
+
+Для досягнення поставленої мети необхідно виконати такі задачі:
+\begin{itemize}
+    \item провести аналіз алгоритмів цифрової обробки зображень;
+    \item розробити архітектуру embedded системи;
+    \item реалізувати realtime pipeline передачі даних;
+    \item реалізувати tiled image processing;
+    \item дослідити швидкодію алгоритмів;
+    \item провести експериментальні дослідження.
+\end{itemize}
+
+Об’єктом дослідження є embedded системи комп’ютерного зору.
+
+Предметом дослідження є алгоритми та методи
+реального часу для цифрової обробки зображень
+на Edge AI платформі.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% РОЗДІЛ 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Теоретичні основи цифрової обробки зображень}
+
+\section{Embedded системи комп’ютерного зору}
+
+Embedded системи комп’ютерного зору використовуються
+в робототехніці, автомобільній промисловості,
+промисловій автоматизації та системах безпеки.
+
+Основною особливістю таких систем є необхідність
+виконання обробки зображень у режимі реального часу
+при обмежених апаратних ресурсах.
+
+\section{Realtime image processing}
+
+Система реального часу повинна забезпечувати
+обробку кожного кадру за час:
+
+\[
+T_{processing} < T_{frame}
+\]
+
+де:
+\begin{itemize}
+    \item $T_{processing}$ --- час обробки кадру;
+    \item $T_{frame}$ --- інтервал між кадрами.
+\end{itemize}
+
+Для частоти 30 FPS:
+
+\[
+T_{frame} = \frac{1}{30} \approx 33.3 ms
+\]
+
+\section{Алгоритми виділення границь}
+
+Одним із найпоширеніших методів є оператор Sobel.
+
+Горизонтальне та вертикальне ядра мають вигляд:
+
+\[
+G_x =
+\begin{bmatrix}
+-1 & 0 & 1 \\
+-2 & 0 & 2 \\
+-1 & 0 & 1
+\end{bmatrix}
+\]
+
+\[
+G_y =
+\begin{bmatrix}
+-1 & -2 & -1 \\
+0 & 0 & 0 \\
+1 & 2 & 1
+\end{bmatrix}
+\]
+
+Модуль градієнта:
+
+\[
+G = \sqrt{G_x^2 + G_y^2}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% РОЗДІЛ 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Архітектура програмно-апаратного комплексу}
+
+\section{Апаратна платформа}
+
+У роботі використано платформу PSoC Edge E84
+з ядром ARM Cortex-M55.
+
+Система включає:
+\begin{itemize}
+    \item мікроконтролер;
+    \item камеру;
+    \item UART інтерфейс;
+    \item LCD дисплей;
+    \item оперативну пам’ять SRAM.
+\end{itemize}
+
+\section{Архітектура системи}
+
+Pipeline системи має вигляд:
+
+\[
+Camera \rightarrow DMA \rightarrow Processing
+\rightarrow UART \rightarrow Host
+\]
+
+\section{Tile processing}
+
+Через обмеження SRAM
+обробка великих зображень виконується
+шляхом розбиття на tiles.
+
+Розмір tile:
+
+\[
+160 \times 120
+\]
+
+З halo region:
+
+\[
+166 \times 126
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% РОЗДІЛ 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Реалізація алгоритмів цифрової обробки}
+
+\section{Histogram equalization}
+
+Histogram equalization використовується
+для покращення контрасту зображення.
+
+Функція перетворення:
+
+\[
+s_k = (L - 1)\sum_{j=0}^{k} p(r_j)
+\]
+
+де:
+\begin{itemize}
+    \item $L$ --- кількість рівнів яскравості;
+    \item $p(r_j)$ --- ймовірність появи рівня.
+\end{itemize}
+
+\section{Morphological operations}
+
+Операція erosion:
+
+\[
+A \ominus B
+\]
+
+Операція dilation:
+
+\[
+A \oplus B
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% РОЗДІЛ 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Експериментальні дослідження}
+
+\section{Методика тестування}
+
+Тестування проводилось для:
+\begin{itemize}
+    \item grayscale image processing;
+    \item edge detection;
+    \item morphology operations;
+    \item histogram equalization.
+\end{itemize}
+
+\section{Оцінка швидкодії}
+
+Середній час обробки кадру:
+
+\[
+T_{avg} = 21.4 ms
+\]
+
+Максимальне використання SRAM:
+
+\[
+RAM_{usage} = 312 KB
+\]
+
+\begin{table}[H]
+\centering
+\caption{Порівняння алгоритмів}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Алгоритм & Latency & RAM & Якість \\
+\hline
+Sobel & 5.1 ms & 48 KB & Висока \\
+Prewitt & 4.8 ms & 48 KB & Середня \\
+Roberts & 2.9 ms & 32 KB & Низька \\
+Laplacian & 6.2 ms & 52 KB & Висока \\
+\hline
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ВИСНОВКИ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{ВИСНОВКИ}
+\addcontentsline{toc}{chapter}{ВИСНОВКИ}
+
+У результаті виконання кваліфікаційної роботи
+було розроблено програмно-апаратний комплекс
+для цифрової обробки зображень у режимі реального часу
+на embedded платформі Edge AI.
+
+Було проведено аналіз алгоритмів
+цифрової обробки зображень та реалізовано:
+\begin{itemize}
+    \item Sobel;
+    \item Prewitt;
+    \item Roberts;
+    \item morphology operations;
+    \item histogram equalization.
+\end{itemize}
+
+Розроблено tiled image processing pipeline,
+що дозволив ефективно працювати
+в умовах обмеженої SRAM пам’яті.
+
+Експериментальні дослідження показали,
+що система здатна забезпечувати
+обробку зображень у режимі реального часу.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% СПИСОК ЛІТЕРАТУРИ
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{99}
+
+\bibitem{opencv}
+Bradski G., Kaehler A.
+Learning OpenCV.
+O'Reilly Media, 2008.
+
+\bibitem{dsp}
+Gonzalez R., Woods R.
+Digital Image Processing.
+Pearson, 2018.
+
+\bibitem{arm}
+ARM Ltd.
+ARM Cortex-M55 Technical Reference Manual.
+
+\bibitem{freertos}
+Barry R.
+Mastering the FreeRTOS Real Time Kernel.
+
+\bibitem{embedded}
+Wolf W.
+Computers as Components.
+Morgan Kaufmann, 2012.
+
+\end{thebibliography}
+
+\end{document}

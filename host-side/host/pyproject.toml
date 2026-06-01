@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modusmate-host"
+version = "0.1.0"
+description = "Host-side controller, GUI and benchmark for the ModusMate PSoC Edge image-processing demo"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pyserial>=3.5",
+    "Pillow>=9.0",
+    "numpy>=1.21",
+    "kagglehub>=0.2.0",
+]
+
+[project.scripts]
+modusmate-bench = "modusmate_host.benchmark:main"
+modusmate-gui = "modusmate_host.gui:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["modusmate_host*"]

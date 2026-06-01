@@ -1,0 +1,52 @@
+Algorithm,Family,Algo ID,Mean Algo (µs),Mean Infer (µs),Total (µs),FPS,UART Acc (%),Screen Acc (%),Projector Acc (%),Delta UART→Proj (pp),F1 UART,RAM (KB),Coverage (%),Notes
+passthrough,basics,0,1159,12293,13452,74.3,78.0,68.2,57.8,-20.2,0.899,241,100,Baseline (identity)
+grayscale,basics,1,7717,12296,20013,50.0,76.2,66.7,55.9,-20.3,0.760,241,100,RGB→Y conversion
+invert,basics,2,5788,12296,18084,55.3,41.8,36.4,33.0,-8.8,0.418,241,100,Photographic negative
+hist_eq,basics,3,26883,12297,39180,25.5,69.5,60.6,50.5,-19.0,0.695,241,100,Global histogram equalisation
+gaussian_3,basics,4,40719,11882,52601,19.0,80.8,73.5,63.8,-17.0,0.808,483,98,Gaussian 3×3
+gaussian_5,basics,5,23884,12290,36174,27.6,78.5,70.8,61.3,-17.2,0.785,485,98,Gaussian 5×5
+mean_3,basics,6,42846,12297,55143,18.1,81.5,74.7,63.9,-17.6,0.806,480,98,Box filter 3×3
+median_3,basics,7,168868,12297,181165,5.5,79.8,70.5,60.2,-19.6,0.798,480,98,Median 3×3 (nonlinear)
+bilateral,basics,8,65126,11885,77011,13.0,81.0,74.2,64.2,-16.8,0.808,482,97,Edge-preserving smoothing
+sharpen,basics,43,42585,12297,54882,18.2,72.8,63.2,52.8,-20.0,0.728,480,100,Unsharp mask
+sobel,edges,9,43910,12295,56205,17.8,87.1,82.6,75.8,-11.3,0.875,486,45,Sobel gradient
+roberts,edges,10,14335,12284,26619,37.6,82.3,73.4,68.0,-14.3,0.821,482,35,Roberts cross 2×2
+prewitt,edges,11,44986,12295,57281,17.5,88.2,81.4,75.1,-13.1,0.883,486,42,Prewitt gradient
+scharr,edges,12,47082,12292,59374,16.8,86.6,82.7,74.6,-12.0,0.874,486,44,Scharr (rotation-optimal)
+kirsch,edges,13,179513,11888,191401,5.2,87.2,80.6,69.8,-17.4,0.871,496,39,8-direction compass
+frei_chen,edges,14,45046,12290,57336,17.4,85.0,77.4,70.4,-14.6,0.854,492,41,Orthonormal basis projection
+canny,edges,15,130114,11882,141996,7.0,57.6,48.4,42.8,-14.8,0.576,488,8,Binary thin edges (not suitable for NN)
+marr_hildreth,edges,16,98550,12299,110849,9.0,80.2,72.8,63.5,-16.7,0.802,490,30,LoG zero-crossings
+laplacian,edges,17,43530,12299,55829,17.9,82.4,77.6,69.5,-12.9,0.826,484,52,Discrete Laplacian
+dog,blobs,18,110409,11880,122289,8.2,80.5,68.8,58.5,-22.0,0.805,492,35,Difference of Gaussians
+log,blobs,19,77961,12300,90261,11.1,82.3,70.4,64.0,-18.3,0.825,490,28,Laplacian of Gaussian
+doh,blobs,20,19712,12291,32003,31.2,79.1,67.5,57.7,-21.4,0.791,484,22,Determinant of Hessian
+harris,keypoints,21,18233,12292,30525,32.8,74.8,63.1,53.8,-21.0,0.748,496,4,Harris corners
+shi_tomasi,keypoints,22,28216,12296,40512,24.7,71.0,59.4,49.8,-21.2,0.710,496,5,Good Features to Track
+fast9,keypoints,23,61212,11885,73097,13.7,64.8,54.5,45.5,-19.3,0.648,484,3,FAST-9 segment test
+otsu,thresholding,24,12258,12286,24544,40.7,85.7,69.0,55.1,-30.6,0.850,241,38,Otsu global threshold
+adaptive_mean,thresholding,25,27117,11879,38996,25.6,72.3,58.8,47.2,-25.1,0.723,244,45,Local mean threshold
+adaptive_gaussian,thresholding,26,27125,12281,39406,25.4,72.1,59.2,48.5,-23.6,0.721,244,45,Local Gaussian threshold
+triangle,thresholding,27,12721,12285,25006,40.0,83.9,65.7,55.5,-28.4,0.835,241,35,Triangle histogram method
+niblack,thresholding,28,233672,11882,245554,4.1,55.4,43.0,34.7,-20.7,0.554,248,60,Local σ-based threshold
+sauvola,thresholding,29,234530,11879,246409,4.1,56.2,44.5,36.2,-20.0,0.562,248,55,Normalised Niblack
+gabor,texture,30,93041,12296,105337,9.5,75.5,64.8,55.2,-20.3,0.755,490,65,Gabor filter (1 orientation)
+lbp,texture,31,25434,12298,37732,26.5,51.2,43.9,38.2,-13.0,0.512,480,95,Local Binary Patterns
+laws_energy,texture,32,45089,12298,57387,17.4,85.3,73.9,62.8,-22.5,0.849,488,72,Laws texture energy
+frangi,ridge,33,128837,12297,141134,7.1,60.5,51.8,43.5,-17.0,0.605,492,15,Frangi vesselness
+hessian_ridge,ridge,34,45817,12296,58113,17.2,77.2,65.8,56.5,-20.7,0.772,486,40,Max eigenvalue of Hessian
+hog_vis,texture,35,14132,12291,26423,37.8,81.5,70.5,61.0,-20.5,0.821,512,65,HOG visualisation
+erode,morphology,36,34140,12297,46437,21.5,78.5,67.2,58.5,-20.0,0.785,480,90,Morphological erosion
+dilate,morphology,37,33516,12288,45804,21.8,75.2,64.8,56.2,-19.0,0.752,480,95,Morphological dilation
+open,morphology,38,59926,12291,72217,13.8,79.2,68.5,58.8,-20.4,0.792,480,88,Opening (erode+dilate)
+close,morphology,39,59690,12290,71980,13.9,76.2,65.5,56.5,-19.7,0.762,480,92,Closing (dilate+erode)
+morph_gradient,morphology,40,63004,12294,75298,13.3,90.2,78.8,70.6,-19.6,0.899,480,18,Dilate−Erode (best UART acc)
+region_grow,morphology,41,14833,12296,27129,36.9,74.5,64.3,55.2,-19.3,0.745,242,50,BFS flood-fill segmentation
+watershed,morphology,42,47900,11891,59791,16.7,72.5,62.5,53.8,-18.7,0.725,484,60,Marker-based watershed
+emboss,texture,44,42342,11888,54230,18.4,64.8,55.5,47.2,-17.6,0.648,480,85,Pseudo-3D relief filter
+mser,keypoints,45,14667,12288,26955,37.1,39.4,33.6,33.0,-6.4,0.394,484,2,Max Stable Extremal Regions
+agast,keypoints,46,57882,11879,69761,14.3,63.2,53.5,44.8,-18.4,0.632,484,3,Adaptive Generic AST
+brief,keypoints,47,62616,12298,74914,13.3,63.5,53.2,44.5,-19.0,0.635,486,4,Binary descriptor
+akaze,keypoints,48,52572,11877,64449,15.5,72.8,61.2,51.5,-21.3,0.728,496,6,Nonlinear scale-space + M-LDB
+blob_log_multiscale,blobs,49,154118,12299,166417,6.0,81.0,71.3,62.0,-19.0,0.810,520,25,Multi-scale LoG pyramid
+fast12,keypoints,50,57878,11882,69760,14.3,67.5,56.8,47.2,-20.3,0.675,484,2,FAST-12 (stricter FAST)

@@ -1,0 +1,14 @@
+{
+  "name": "stump_const",
+  "description": "Deterministic constant predictor used as a smoke-test stub. Returns class_id=0 with confidence 1.0 for every input. IMAI ABI-compatible with the firmware's model slot so smoke tests can validate the wire protocol without touching the real network.",
+  "framework": "modusmate_stump_v1",
+  "imai_api": true,
+  "input_shape": [320, 320, 3],
+  "input_dtype": "uint8",
+  "output_shape": [8, 5],
+  "output_dtype": "float32",
+  "output_layout": "column_major",
+  "classes": ["Rock", "Paper", "Scissors"],
+  "expected_smoke_output": {"class_id": 0, "conf_x100": 100},
+  "files": ["model.h", "model.c"]
+}

@@ -1,0 +1,67 @@
+# macOS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+.venv/
+**/.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Office temporary files
+~$*
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# Project-local report build output
+report/build/
+
+# ModusToolbox common build outputs
+board-side/**/build/
+board-side/**/Debug/
+board-side/**/Release/
+board-side/**/GeneratedSource/
+board-side/**/COMPONENT_*/
+board-side/ws-camera-imgproc-usb/mtb_shared/
+
+# Host-side generated benchmark outputs (keep canonical report copy in report/data)
+host-side/host/results.csv
+host-side/host/summary.md
+host-side/host/sweep_results.csv
+host-side/host/sweep_results.md
+host-side/host/camera_bench_report.csv
+host-side/host/algo_train_results.csv
+host-side/host/algo_train_results.md
+host-side/host/algo_train_summary.md
+host-side/host/plots/

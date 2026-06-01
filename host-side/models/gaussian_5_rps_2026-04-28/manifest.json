@@ -1,0 +1,40 @@
+{
+  "name": "gaussian_5_rps",
+  "description": "Single-hidden-layer MLP (input=32x32x3, hidden=32, classes=3) trained on the 'rps' dataset with the 'gaussian_5' firmware preprocessing applied.  IMAI ABI-compatible with the existing camera-imgproc-usb model slot.",
+  "framework": "modusmate_mlp_v1",
+  "imai_api": true,
+  "input_shape": [
+    320,
+    320,
+    3
+  ],
+  "input_dtype": "uint8",
+  "output_shape": [
+    8,
+    5
+  ],
+  "output_dtype": "float32",
+  "output_layout": "column_major",
+  "classes": [
+    "rock",
+    "paper",
+    "scissors"
+  ],
+  "flash_bytes": 393740,
+  "ram_bytes": 12428,
+  "prep_algo": "gaussian_5",
+  "training": {
+    "dataset": "rps",
+    "side": 32,
+    "model_w": 32,
+    "model_h": 32,
+    "hidden": 32,
+    "test_acc": 0.9051428571428571,
+    "host_prep_us": 134.0671894099751,
+    "exported_at": "2026-04-27T23:27:47+00:00"
+  },
+  "files": [
+    "model.h",
+    "model.c"
+  ]
+}
