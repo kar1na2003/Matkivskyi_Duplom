@@ -25,6 +25,14 @@ coverage.xml
 *.tmp
 *.swp
 *.swo
+*.orig
+
+# IDE indexes / caches
+.cache/
+**/.cache/
+
+# Local archives
+*.tar.gz
 
 # Office temporary files
 ~$*
